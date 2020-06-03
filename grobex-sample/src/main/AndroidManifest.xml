@@ -2,8 +2,8 @@
           package="stan.grobex.sample">
 
     <application
-        android:icon="@mipmap/ic_launcher"
-        android:label="Green Robot Extension Sample">
+        android:label="${appNamePrefix}${appNameBuildTypeSuffix}"
+        >
         <activity android:name=".MainActivity"
             android:screenOrientation="portrait"
             >

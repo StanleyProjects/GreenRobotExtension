@@ -1,6 +1,7 @@
 /*
 !.gitignore
 !build.gradle.kts
+!/buildSrc
 !/grobex-sample
 !/grobex-view
 !LICENSE

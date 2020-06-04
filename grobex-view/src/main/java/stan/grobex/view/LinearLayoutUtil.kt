@@ -3,27 +3,30 @@ package stan.grobex.view
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.ViewGroup
-import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.TextView
 import kotlin.reflect.KClass
 
-internal object FrameLayoutDefault {
-    val gravity: Gravity = Gravity.TOP_LEFT
+internal object LinearLayoutDefault {
+    val orientation: Orientation = Orientation.HORIZONTAL
+    const val weight: Float = 0f
 }
 
-fun frameLayout(
+fun linearLayout(
     context: Context,
     layoutParams: ViewGroup.LayoutParams = ViewGroup::class.matched,
     // view
-    background: Drawable,
+    background: Drawable = ViewDefault.background,
     visibility: Visibility = ViewDefault.visibility,
     padding: Padding = ViewDefault.padding,
     onClick: () -> Unit = ViewDefault.onClick,
     isClickable: Boolean = ViewDefault.isClickable(onClick),
+    // linear layout
+    orientation: Orientation = LinearLayoutDefault.orientation,
     //
-    block: FrameLayout.() -> Unit = {}
-): FrameLayout {
-    return FrameLayout(context).apply {
+    block: LinearLayout.() -> Unit = {}
+): LinearLayout {
+    return LinearLayout(context).apply {
         configure(
             layoutParams = layoutParams,
             // view
@@ -35,38 +38,31 @@ fun frameLayout(
             //
             block = block
         )
+        this.orientation = orientation.asViewValue()
     }
 }
 
-fun KClass<FrameLayout>.layoutParams(
+fun KClass<LinearLayout>.layoutParams(
     width: Int,
     height: Int,
-    gravity: Gravity
-): FrameLayout.LayoutParams {
-    return FrameLayout.LayoutParams(width, height, gravity.asViewValue())
+    weight: Float
+): LinearLayout.LayoutParams {
+    return LinearLayout.LayoutParams(width, height, weight)
 }
 
-fun KClass<FrameLayout>.wrapped(gravity: Gravity = FrameLayoutDefault.gravity): FrameLayout.LayoutParams {
-    return layoutParams(
-        width = ViewGroup.LayoutParams.WRAP_CONTENT,
-        height = ViewGroup.LayoutParams.WRAP_CONTENT,
-        gravity = gravity
-    )
-}
-
-fun FrameLayout.textView(
+fun LinearLayout.textView(
     context: Context = this.context,
     width: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
     height: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
-    layoutGravity: Gravity = FrameLayoutDefault.gravity,
+    weight: Float = LinearLayoutDefault.weight,
     // view
-    background: Drawable,
+    background: Drawable = ViewDefault.background,
     visibility: Visibility = ViewDefault.visibility,
     padding: Padding = ViewDefault.padding,
     onClick: () -> Unit = ViewDefault.onClick,
     isClickable: Boolean = ViewDefault.isClickable(onClick),
     // text view
-    text: String,
+    text: String = "",
     textSizeUnit: TypeDimension = TextViewDefault.textSizeDimension,
     textSize: Float = TextViewDefault.textSize,
     isAllCaps: Boolean = TextViewDefault.isAllCaps,
@@ -76,10 +72,10 @@ fun FrameLayout.textView(
 ): TextView {
     val result = textView(
         context = context,
-        layoutParams = FrameLayout::class.layoutParams(
+        layoutParams = LinearLayout::class.layoutParams(
             width = width,
             height = height,
-            gravity = layoutGravity
+            weight = weight
         ),
         // view
         background = background,

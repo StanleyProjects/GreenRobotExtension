@@ -1,5 +1,7 @@
 package stan.grobex.view
 
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 
@@ -17,14 +19,44 @@ fun Visibility.asViewValue(): Int {
     }
 }
 
-data class Padding(
-    val left: Int,
-    val top: Int,
-    val right: Int,
+interface Padding {
+    val left: Int
+    val top: Int
+    val right: Int
     val bottom: Int
-)
+}
 
-val noPadding = Padding(0, 0, 0, 0)
+private data class PaddingImpl(
+    override val left: Int,
+    override val top: Int,
+    override val right: Int,
+    override val bottom: Int
+) : Padding
+
+fun padding(
+    left: Int,
+    top: Int,
+    right: Int,
+    bottom: Int
+): Padding {
+    return PaddingImpl(
+        left = left,
+        top = top,
+        right = right,
+        bottom = bottom
+    )
+}
+
+val noPadding = padding(0, 0, 0, 0)
+
+fun View.getPadding(): Padding {
+    return padding(
+        left = paddingLeft,
+        top = paddingTop,
+        right = paddingRight,
+        bottom = paddingBottom
+    )
+}
 
 fun View.setPadding(padding: Padding) {
     setPadding(
@@ -35,47 +67,50 @@ fun View.setPadding(padding: Padding) {
     )
 }
 
-internal val UNSPECIFIED_ON_CLICK: () -> Unit = { error("not for use") }
-
-interface ViewConfig {
-    val visibility: Visibility
-    val padding: Padding
-    val onClick: () -> Unit
-    val isClickable: Boolean
+fun View.updatePadding(
+    left: Int = paddingLeft,
+    top: Int = paddingTop,
+    right: Int = paddingRight,
+    bottom: Int = paddingBottom
+) {
+    setPadding(
+        left,
+        top,
+        right,
+        bottom
+    )
 }
 
-private class ViewConfigImpl(
-    override val visibility: Visibility,
-    override val padding: Padding,
-    override val onClick: () -> Unit,
-    override val isClickable: Boolean
-) : ViewConfig
+internal val UNSPECIFIED_ON_CLICK: () -> Unit = { error("not for use") }
 
-fun viewConfig(
-    visibility: Visibility = Visibility.VISIBLE,
-    padding: Padding = noPadding,
-    onClick: () -> Unit = UNSPECIFIED_ON_CLICK,
-    isClickable: Boolean = onClick !== UNSPECIFIED_ON_CLICK
-): ViewConfig {
-    return ViewConfigImpl(
-        visibility = visibility,
-        padding = padding,
-        onClick = onClick,
-        isClickable = isClickable
-    )
+internal object ViewDefault {
+    val background = ColorDrawable(0)
+    val visibility = Visibility.VISIBLE
+    val padding = noPadding
+    val onClick = UNSPECIFIED_ON_CLICK
+    fun isClickable(onClick: () -> Unit): Boolean {
+        return onClick !== UNSPECIFIED_ON_CLICK
+    }
 }
 
 fun <T : View> T.configure(
     layoutParams: ViewGroup.LayoutParams,
-    config: ViewConfig,
-    block: T.() -> Unit = {}
+    //
+    background: Drawable,
+    visibility: Visibility,
+    padding: Padding,
+    onClick: () -> Unit,
+    isClickable: Boolean,
+    //
+    block: T.() -> Unit
 ) {
     this.layoutParams = layoutParams
-    visibility = config.visibility.asViewValue()
-    setPadding(config.padding)
-    isClickable = config.isClickable
-    if(config.onClick !== UNSPECIFIED_ON_CLICK) {
-        setOnClickListener { config.onClick() }
+    this.background = background // todo
+    this.visibility = visibility.asViewValue()
+    setPadding(padding)
+    this.isClickable = isClickable
+    if(onClick !== UNSPECIFIED_ON_CLICK) {
+        setOnClickListener { onClick() }
     }
     block()
 }

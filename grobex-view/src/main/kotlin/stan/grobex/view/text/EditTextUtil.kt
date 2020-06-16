@@ -1,28 +1,18 @@
-package stan.grobex.view
+package stan.grobex.view.text
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.text.TextWatcher
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.EditText
+import stan.grobex.view.Padding
+import stan.grobex.view.TypeDimension
+import stan.grobex.view.ViewDefault
+import stan.grobex.view.Visibility
+import stan.grobex.view.configure
+import stan.grobex.view.wrapped
 
-internal object TextViewDefault {
-    val textSizeDimension: TypeDimension = TypeDimension.SCALED_PIXEL
-    const val textSize: Float = 12f
-    const val isAllCaps: Boolean = false
-}
-
-fun TextView.configure(
-    text: String,
-    textSizeUnit: TypeDimension,
-    textSize: Float,
-    isAllCaps: Boolean
-) {
-    this.text = text
-    setTextSize(textSizeUnit.asViewValue(), textSize)
-    this.isAllCaps = isAllCaps
-}
-
-fun textView(
+fun editText(
     context: Context,
     layoutParams: ViewGroup.LayoutParams = ViewGroup::class.wrapped,
     // view
@@ -32,14 +22,15 @@ fun textView(
     onClick: () -> Unit = ViewDefault.onClick,
     isClickable: Boolean = ViewDefault.isClickable(onClick),
     // text view
-    text: String,
+    text: CharSequence,
     textSizeUnit: TypeDimension,
     textSize: Float,
     isAllCaps: Boolean,
+    textWatchers: Set<TextWatcher>,
     //
-    block: TextView.() -> Unit = {}
-): TextView {
-    return TextView(context).apply {
+    block: EditText.() -> Unit = {}
+): EditText {
+    return EditText(context).apply {
         configure(
             layoutParams = layoutParams,
             background = background,
@@ -53,7 +44,8 @@ fun textView(
             text = text,
             textSizeUnit = textSizeUnit,
             textSize = textSize,
-            isAllCaps = isAllCaps
+            isAllCaps = isAllCaps,
+            textWatchers = textWatchers
         )
     }
 }

@@ -2,10 +2,13 @@ package stan.grobex.view
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.text.TextWatcher
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import kotlin.reflect.KClass
+import stan.grobex.view.text.TextViewDefault
+import stan.grobex.view.text.textView
 
 internal object FrameLayoutDefault {
     val gravity: Gravity = Gravity.TOP_LEFT
@@ -70,6 +73,7 @@ fun FrameLayout.textView(
     textSizeUnit: TypeDimension = TextViewDefault.textSizeDimension,
     textSize: Float = TextViewDefault.textSize,
     isAllCaps: Boolean = TextViewDefault.isAllCaps,
+    textWatchers: Set<TextWatcher>,
     //
     needToAdd: Boolean = true,
     block: TextView.() -> Unit = {}
@@ -92,6 +96,7 @@ fun FrameLayout.textView(
         textSizeUnit = textSizeUnit,
         textSize = textSize,
         isAllCaps = isAllCaps,
+        textWatchers = textWatchers,
         //
         block = block
     )

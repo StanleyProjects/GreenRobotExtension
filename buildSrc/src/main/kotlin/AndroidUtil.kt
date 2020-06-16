@@ -15,6 +15,9 @@ fun BaseExtension.defaultConfig(
         targetSdkVersion(targetSdkVersion)
         block()
     }
+    sourceSets.all {
+        java.srcDir("src/$name/kotlin")
+    }
 }
 
 fun BaseExtension.commonConfig(

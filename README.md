@@ -1,5 +1,5 @@
 ![version](https://img.shields.io/static/v1?label=version&message=0.0.1&labelColor=212121&color=2962ff&style=flat)
-![grobex-view](https://img.shields.io/static/v1?label=grobex-view&message=4&labelColor=212121&color=2962ff&style=flat)
+![grobex-view](https://img.shields.io/static/v1?label=grobex-view&message=5&labelColor=212121&color=2962ff&style=flat)
 
 # GreenRobotExtension
 

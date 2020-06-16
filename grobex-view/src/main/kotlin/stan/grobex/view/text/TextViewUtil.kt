@@ -1,0 +1,95 @@
+package stan.grobex.view.text
+
+import android.content.Context
+import android.graphics.drawable.Drawable
+import android.text.TextWatcher
+import android.view.ViewGroup
+import android.widget.TextView
+import stan.grobex.view.Padding
+import stan.grobex.view.TypeDimension
+import stan.grobex.view.ViewDefault
+import stan.grobex.view.Visibility
+import stan.grobex.view.asViewValue
+import stan.grobex.view.configure
+import stan.grobex.view.wrapped
+
+internal object TextViewDefault {
+    val textSizeDimension: TypeDimension = TypeDimension.SCALED_PIXEL
+    const val textSize: Float = 12f
+    const val isAllCaps: Boolean = false
+    val textWatchers: Set<TextWatcher> = emptySet()
+}
+
+fun TextView.configure(
+    text: CharSequence,
+    textSizeUnit: TypeDimension,
+    textSize: Float,
+    isAllCaps: Boolean,
+    textWatchers: Set<TextWatcher>
+) {
+    setText(text)
+    setTextSize(textSizeUnit.asViewValue(), textSize)
+    this.isAllCaps = isAllCaps
+    textWatchers.forEach(::addTextChangedListener)
+}
+
+fun textView(
+    context: Context,
+    layoutParams: ViewGroup.LayoutParams = ViewGroup::class.wrapped,
+    // view
+    background: Drawable,
+    visibility: Visibility = ViewDefault.visibility,
+    padding: Padding = ViewDefault.padding,
+    onClick: () -> Unit = ViewDefault.onClick,
+    isClickable: Boolean = ViewDefault.isClickable(onClick),
+    // text view
+    text: String,
+    textSizeUnit: TypeDimension,
+    textSize: Float,
+    isAllCaps: Boolean,
+    textWatchers: Set<TextWatcher>,
+    //
+    block: TextView.() -> Unit = {}
+): TextView {
+    return TextView(context).apply {
+        configure(
+            layoutParams = layoutParams,
+            background = background,
+            visibility = visibility,
+            padding = padding,
+            onClick = onClick,
+            isClickable = isClickable,
+            block = block
+        )
+        configure(
+            text = text,
+            textSizeUnit = textSizeUnit,
+            textSize = textSize,
+            isAllCaps = isAllCaps,
+            textWatchers = textWatchers
+        )
+    }
+}
+
+fun TextView.textWatcher(
+    onChanged: (CharSequence?) -> Unit,
+    needToAdd: Boolean = true
+): TextWatcher {
+    val result = textWatcher(
+        onChanged = { value: CharSequence?, _, _, _ -> onChanged(value) }
+    )
+    if (needToAdd) {
+        addTextChangedListener(result)
+    }
+    return result
+}
+
+fun TextView.textWatcher(
+    onChanged: () -> Unit,
+    needToAdd: Boolean = true
+): TextWatcher {
+    return textWatcher(
+        onChanged = { _ -> onChanged() },
+        needToAdd = needToAdd
+    )
+}

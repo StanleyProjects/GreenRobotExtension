@@ -14,6 +14,6 @@ object Version {
 
     object Code {
         const val sample = 3
-        const val view = 4
+        const val view = 5
     }
 }

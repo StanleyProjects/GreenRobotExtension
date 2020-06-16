@@ -5,6 +5,8 @@
 
 A few Android SDK extensions
 
+[![Download](https://api.bintray.com/packages/stanleyprojects/GreenRobotExtension/stan.grobex.view/images/download.svg)](https://bintray.com/stanleyprojects/GreenRobotExtension/stan.grobex.view/_latestVersion)
+
 Android project common|version
 -|-:
 build gradle|`4.0.0`

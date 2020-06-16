@@ -57,7 +57,14 @@ task<DefaultTask>("verifyReadme") {
         listOf(projectCommon).forEach {
             check(text.contains(it)) { "File by path ${file.absolutePath} must contains \"$it\"!" }
         }
-        val lines = text.split(SystemUtil.newLine)
+        val bintray = setOf(
+            "view"
+        ).map {
+            val project = "stanleyprojects/GreenRobotExtension/stan.grobex.$it"
+            "[" +
+                "![Download](https://api.bintray.com/packages/$project/images/download.svg)" +
+            "](https://bintray.com/$project/_latestVersion)"
+        }
         val versions = setOf(
             "grobex-view" to Version.Code.view
         ).map { (label, value) ->
@@ -77,7 +84,8 @@ task<DefaultTask>("verifyReadme") {
                 color = "2962ff"
             )
         )
-        versions.forEach {
+        val lines = text.split(SystemUtil.newLine)
+        (versions + bintray).forEach {
             check(lines.contains(it)) { "File by path ${file.absolutePath} must contains \"$it\" line!" }
         }
     }

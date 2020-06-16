@@ -87,5 +87,5 @@ dependencies {
         ":grobex-view"
     )
 
-    implementation(Dependency.kotlinStdlib)
+    implementation(kotlin("stdlib"))
 }

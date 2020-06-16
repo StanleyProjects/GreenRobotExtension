@@ -12,7 +12,7 @@ enum class Visibility {
 }
 
 fun Visibility.asViewValue(): Int {
-    return when(this) {
+    return when (this) {
         Visibility.VISIBLE -> View.VISIBLE
         Visibility.INVISIBLE -> View.INVISIBLE
         Visibility.GONE -> View.GONE
@@ -109,7 +109,7 @@ fun <T : View> T.configure(
     this.visibility = visibility.asViewValue()
     setPadding(padding)
     this.isClickable = isClickable
-    if(onClick !== UNSPECIFIED_ON_CLICK) {
+    if (onClick !== UNSPECIFIED_ON_CLICK) {
         setOnClickListener { onClick() }
     }
     block()

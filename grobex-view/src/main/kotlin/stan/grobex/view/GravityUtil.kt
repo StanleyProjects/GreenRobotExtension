@@ -9,7 +9,7 @@ enum class Gravity {
 }
 
 fun Gravity.asViewValue(): Int {
-    return when(this) {
+    return when (this) {
         Gravity.TOP -> AndroidGravity.TOP
         Gravity.TOP_LEFT -> AndroidGravity.TOP or AndroidGravity.LEFT
         Gravity.BOTTOM -> AndroidGravity.BOTTOM

@@ -33,7 +33,7 @@ task<JavaExec>("verifyCodeStyle") {
         "buildSrc/build.gradle.kts",
         "grobex-view/src/main/kotlin/**/*.kt",
         "grobex-view/build.gradle.kts",
-        "grobex-sample/src/main/java/**/*.kt",
+        "grobex-sample/src/main/kotlin/**/*.kt",
         "grobex-sample/build.gradle.kts",
         "--reporter=html,output=$analysisStyleHtmlPath"
     )
@@ -43,10 +43,11 @@ task<DefaultTask>("verifyReadme") {
     doLast {
         val file = File(rootDir, "README.md")
         val text = file.requireFilledText()
-        val projectCommon = Markdown.table(
+        val projectCommon = MarkdownUtil.table(
             heads = listOf("Android project common", "version"),
             dividers = listOf("-", "-:"),
             rows = listOf(
+                listOf("build gradle", "`${Version.Android.toolsBuildGradle}`"),
                 listOf("compile sdk", "`${Version.Android.compileSdk}`"),
                 listOf("build tools", "`${Version.Android.buildTools}`"),
                 listOf("min sdk", "`${Version.Android.minSdk}`"),
@@ -54,41 +55,68 @@ task<DefaultTask>("verifyReadme") {
             )
         )
         listOf(projectCommon).forEach {
-            if(!text.contains(it)) error("File by path ${file.absolutePath} must contains \"$it\"!")
+            check(text.contains(it)) { "File by path ${file.absolutePath} must contains \"$it\"!" }
         }
         val lines = text.split(SystemUtil.newLine)
-        val versionBadge = Markdown.image(
+        val versions = setOf(
+            "grobex-view" to Version.Code.view
+        ).map { (label, value) ->
+            MarkdownUtil.image(
+                text = label,
+                url = badgeUrl(
+                    label = label,
+                    message = value.toString(),
+                    color = "2962ff"
+                )
+            )
+        } + MarkdownUtil.image(
             text = "version",
             url = badgeUrl(
                 label = "version",
-                message = Version.Application.name +"-"+ Version.Application.code,
+                message = Version.name,
                 color = "2962ff"
             )
         )
-        listOf(versionBadge).forEach {
-            if(!lines.contains(it)) error("File by path ${file.absolutePath} must contains \"$it\" line!")
+        versions.forEach {
+            check(lines.contains(it)) { "File by path ${file.absolutePath} must contains \"$it\" line!" }
         }
     }
 }
 
-task<JavaExec>("ktlint") {
-    classpath = kotlinLint
-    main = "com.pinterest.ktlint.Main"
+task<DefaultTask>("verifyService") {
+    doLast {
+        val file = File(rootDir, "buildSrc/build.gradle.kts")
+        val text = file.requireFilledText()
+        listOf(Dependency.androidToolsBuildGradle.notation()).forEach {
+            check(text.contains(it)) { "File by path ${file.absolutePath} must contains \"$it\"!" }
+        }
+    }
+}
+
+task<DefaultTask>("verifyLicense") {
+    doLast {
+        val file = File(rootDir, "LICENSE")
+        val text = file.requireFilledText()
+        // todo
+    }
+}
+
+task<DefaultTask>("verifyAll") {
+    dependsOn(setOf(
+        "CodeStyle",
+        "Readme",
+        "Service",
+        "License"
+    ).map { "verify$it" })
 }
 
 task<Delete>("clean") {
     delete = setOf(rootProject.buildDir)
 }
 
-task<DefaultTask>("applicationVersionName") {
-    doLast {
-        println(Version.Application.name)
-    }
-}
-task<DefaultTask>("applicationVersionCode") {
-    doLast {
-        println(Version.Application.code)
-    }
+task<Delete>("cleanAll") {
+    dependsOn("clean")
+    delete = setOf(File(rootDir, "buildSrc/build"))
 }
 
 allprojects {

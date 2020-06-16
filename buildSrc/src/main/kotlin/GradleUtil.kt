@@ -1,7 +1,7 @@
 import org.gradle.api.initialization.dsl.ScriptHandler
 import org.gradle.kotlin.dsl.DependencyHandlerScope
-import org.gradle.plugin.use.PluginDependenciesSpec
 import org.gradle.kotlin.dsl.project
+import org.gradle.plugin.use.PluginDependenciesSpec
 
 fun Dependency.notation(): String {
     return "$group:$name:$version"

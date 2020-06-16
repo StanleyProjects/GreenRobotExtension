@@ -6,7 +6,7 @@ import stan.grobex.view.Orientation
 import stan.grobex.view.linearLayout
 import stan.grobex.view.textView
 
-class MainActivity: Activity() {
+class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(linearLayout(context = this, orientation = Orientation.VERTICAL) {

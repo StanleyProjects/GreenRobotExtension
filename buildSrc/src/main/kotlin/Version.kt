@@ -3,15 +3,17 @@ object Version {
     const val kotlinLint = "0.36.0"
 
     object Android {
-        const val toolsBuildGradle = "3.5.2"
-        const val compileSdk = 28
+        const val toolsBuildGradle = "4.0.0"
+        const val compileSdk = 29
         const val buildTools = "29.0.3"
         const val minSdk = 16
         const val targetSdk = 28
     }
 
-    object Application {
-        const val code = 2
-        const val name = "0.0.1"
+    const val name = "0.0.1"
+
+    object Code {
+        const val sample = 3
+        const val view = 4
     }
 }

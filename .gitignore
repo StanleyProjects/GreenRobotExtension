@@ -1,10 +1,9 @@
 /*
 !.gitignore
-!android.gradle
-!build.gradle
+!build.gradle.kts
+!/buildSrc
 !/grobex-sample
 !/grobex-view
-!kotlin.gradle
 !LICENSE
 !README.md
-!settings.gradle
+!settings.gradle.kts

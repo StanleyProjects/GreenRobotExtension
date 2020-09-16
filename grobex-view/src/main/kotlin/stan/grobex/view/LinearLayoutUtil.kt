@@ -1,6 +1,7 @@
 package stan.grobex.view
 
 import android.content.Context
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.TextWatcher
 import android.view.ViewGroup
@@ -49,9 +50,12 @@ fun linearLayout(
 fun KClass<LinearLayout>.layoutParams(
     width: Int,
     height: Int,
-    weight: Float
+    weight: Float,
+    margin: Margin
 ): LinearLayout.LayoutParams {
-    return LinearLayout.LayoutParams(width, height, weight)
+    val result = LinearLayout.LayoutParams(width, height, weight)
+    result.setMargin(margin)
+    return result
 }
 
 fun LinearLayout.textView(
@@ -59,6 +63,7 @@ fun LinearLayout.textView(
     width: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
     height: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
     weight: Float = LinearLayoutDefault.weight,
+    margin: Margin = noMargin,
     // view
     background: Drawable = ViewDefault.background,
     visibility: Visibility = ViewDefault.visibility,
@@ -66,9 +71,13 @@ fun LinearLayout.textView(
     onClick: () -> Unit = ViewDefault.onClick,
     isClickable: Boolean = ViewDefault.isClickable(onClick),
     // text view
+    gravity: Gravity = TextViewDefault.gravity,
     text: String = "",
     textSizeUnit: TypeDimension = TextViewDefault.textSizeDimension,
     textSize: Float = TextViewDefault.textSize,
+    textColor: Int = TextViewDefault.textColor,
+    typeface: Typeface? = TextViewDefault.typeface,
+    typefaceStyle: TypefaceStyle = TextViewDefault.typefaceStyle,
     isAllCaps: Boolean = TextViewDefault.isAllCaps,
     textWatchers: Set<TextWatcher> = TextViewDefault.textWatchers,
     //
@@ -80,7 +89,8 @@ fun LinearLayout.textView(
         layoutParams = LinearLayout::class.layoutParams(
             width = width,
             height = height,
-            weight = weight
+            weight = weight,
+            margin = margin
         ),
         // view
         background = background,
@@ -89,9 +99,13 @@ fun LinearLayout.textView(
         onClick = onClick,
         isClickable = isClickable,
         // text view
+        gravity = gravity,
         text = text,
         textSizeUnit = textSizeUnit,
         textSize = textSize,
+        textColor = textColor,
+        typeface = typeface,
+        typefaceStyle = typefaceStyle,
         isAllCaps = isAllCaps,
         textWatchers = textWatchers,
         //
@@ -108,6 +122,7 @@ fun LinearLayout.editText(
     width: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
     height: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
     weight: Float = LinearLayoutDefault.weight,
+    margin: Margin = noMargin,
     // view
     background: Drawable = ViewDefault.background,
     visibility: Visibility = ViewDefault.visibility,
@@ -115,9 +130,13 @@ fun LinearLayout.editText(
     onClick: () -> Unit = ViewDefault.onClick,
     isClickable: Boolean = ViewDefault.isClickable(onClick),
     // text view
-    text: CharSequence = "",
+    gravity: Gravity = TextViewDefault.gravity,
+    text: String = "",
     textSizeUnit: TypeDimension = TextViewDefault.textSizeDimension,
     textSize: Float = TextViewDefault.textSize,
+    textColor: Int = TextViewDefault.textColor,
+    typeface: Typeface? = TextViewDefault.typeface,
+    typefaceStyle: TypefaceStyle = TextViewDefault.typefaceStyle,
     isAllCaps: Boolean = TextViewDefault.isAllCaps,
     textWatchers: Set<TextWatcher> = TextViewDefault.textWatchers,
     //
@@ -129,7 +148,8 @@ fun LinearLayout.editText(
         layoutParams = LinearLayout::class.layoutParams(
             width = width,
             height = height,
-            weight = weight
+            weight = weight,
+            margin = margin
         ),
         // view
         background = background,
@@ -138,9 +158,13 @@ fun LinearLayout.editText(
         onClick = onClick,
         isClickable = isClickable,
         // text view
+        gravity = gravity,
         text = text,
         textSizeUnit = textSizeUnit,
         textSize = textSize,
+        textColor = textColor,
+        typeface = typeface,
+        typefaceStyle = typefaceStyle,
         isAllCaps = isAllCaps,
         textWatchers = textWatchers,
         //

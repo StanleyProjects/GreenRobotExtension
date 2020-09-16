@@ -12,6 +12,6 @@ object Version {
 
     object Name {
         const val sample = "0.0.3"
-        const val view = "0.0.5"
+        const val view = "0.0.6"
     }
 }

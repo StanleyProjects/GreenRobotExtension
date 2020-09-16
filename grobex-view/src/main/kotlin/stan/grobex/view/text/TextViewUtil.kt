@@ -1,12 +1,16 @@
 package stan.grobex.view.text
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.TextWatcher
 import android.view.ViewGroup
 import android.widget.TextView
+import stan.grobex.view.Gravity
 import stan.grobex.view.Padding
 import stan.grobex.view.TypeDimension
+import stan.grobex.view.TypefaceStyle
 import stan.grobex.view.ViewDefault
 import stan.grobex.view.Visibility
 import stan.grobex.view.asViewValue
@@ -18,19 +22,30 @@ internal object TextViewDefault {
     const val textSize: Float = 12f
     const val isAllCaps: Boolean = false
     val textWatchers: Set<TextWatcher> = emptySet()
+    val textColor: Int = Color.parseColor("#000")
+    val typeface: Typeface? = null
+    val typefaceStyle: TypefaceStyle = TypefaceStyle.NORMAL
+    val gravity: Gravity = Gravity.TOP_LEFT
 }
 
 fun TextView.configure(
+    gravity: Gravity,
     text: CharSequence,
     textSizeUnit: TypeDimension,
     textSize: Float,
+    textColor: Int,
+    typeface: Typeface?,
+    typefaceStyle: TypefaceStyle,
     isAllCaps: Boolean,
     textWatchers: Set<TextWatcher>
 ) {
     setText(text)
     setTextSize(textSizeUnit.asViewValue(), textSize)
+    setTextColor(textColor)
+    setTypeface(typeface, typefaceStyle.asViewValue())
     this.isAllCaps = isAllCaps
     textWatchers.forEach(::addTextChangedListener)
+    this.gravity = gravity.asViewValue()
 }
 
 fun textView(
@@ -43,9 +58,13 @@ fun textView(
     onClick: () -> Unit = ViewDefault.onClick,
     isClickable: Boolean = ViewDefault.isClickable(onClick),
     // text view
+    gravity: Gravity,
     text: String,
     textSizeUnit: TypeDimension,
     textSize: Float,
+    textColor: Int,
+    typeface: Typeface?,
+    typefaceStyle: TypefaceStyle,
     isAllCaps: Boolean,
     textWatchers: Set<TextWatcher>,
     //
@@ -64,8 +83,12 @@ fun textView(
             text = text,
             textSizeUnit = textSizeUnit,
             textSize = textSize,
+            textColor = textColor,
+            typeface = typeface,
+            typefaceStyle = typefaceStyle,
             isAllCaps = isAllCaps,
-            textWatchers = textWatchers
+            textWatchers = textWatchers,
+            gravity = gravity
         )
         block()
     }

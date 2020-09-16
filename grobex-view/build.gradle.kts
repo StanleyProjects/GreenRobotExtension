@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     applyAll(
         Plugin.androidLibrary,
@@ -21,8 +23,23 @@ android {
         versionCode = VersionUtil.codeByName(versionName)
     }
 
+    signingConfigs {
+        val properties = Properties().also {
+            File(projectDir, "signing.properties").inputStream().use(it::load)
+        }
+        setOf(
+            getByName(BuildType.debug),
+            create(BuildType.snapshot)
+        ).forEach { it.defaultConfig(project, properties) }
+    }
+
     buildTypes {
-        create(BuildType.snapshot)
+        getByName(BuildType.debug) {
+            signingConfig = signingConfigs.getByName(name)
+        }
+        create(BuildType.snapshot) {
+            signingConfig = signingConfigs.getByName(name)
+        }
     }
 
     val mainSourceSets = sourceSets["main"]!!

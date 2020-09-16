@@ -34,10 +34,10 @@ private data class PaddingImpl(
 ) : Padding
 
 fun padding(
-    left: Int,
-    top: Int,
-    right: Int,
-    bottom: Int
+    left: Int = 0,
+    top: Int = 0,
+    right: Int = 0,
+    bottom: Int = 0
 ): Padding {
     return PaddingImpl(
         left = left,
@@ -47,7 +47,7 @@ fun padding(
     )
 }
 
-val noPadding = padding(0, 0, 0, 0)
+val noPadding = padding()
 
 fun View.getPadding(): Padding {
     return padding(

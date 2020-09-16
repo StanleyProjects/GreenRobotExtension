@@ -1,12 +1,15 @@
 package stan.grobex.view.text
 
 import android.content.Context
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.TextWatcher
 import android.view.ViewGroup
 import android.widget.EditText
+import stan.grobex.view.Gravity
 import stan.grobex.view.Padding
 import stan.grobex.view.TypeDimension
+import stan.grobex.view.TypefaceStyle
 import stan.grobex.view.ViewDefault
 import stan.grobex.view.Visibility
 import stan.grobex.view.configure
@@ -22,9 +25,13 @@ fun editText(
     onClick: () -> Unit = ViewDefault.onClick,
     isClickable: Boolean = ViewDefault.isClickable(onClick),
     // text view
-    text: CharSequence,
+    gravity: Gravity,
+    text: String,
     textSizeUnit: TypeDimension,
     textSize: Float,
+    textColor: Int,
+    typeface: Typeface?,
+    typefaceStyle: TypefaceStyle,
     isAllCaps: Boolean,
     textWatchers: Set<TextWatcher>,
     //
@@ -43,8 +50,12 @@ fun editText(
             text = text,
             textSizeUnit = textSizeUnit,
             textSize = textSize,
+            textColor = textColor,
+            typeface = typeface,
+            typefaceStyle = typefaceStyle,
             isAllCaps = isAllCaps,
-            textWatchers = textWatchers
+            textWatchers = textWatchers,
+            gravity = gravity
         )
         block()
     }

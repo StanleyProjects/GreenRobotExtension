@@ -1,5 +1,9 @@
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.dsl.DefaultConfig
+import com.android.build.gradle.internal.dsl.SigningConfig
+import org.gradle.api.Project
+import java.io.File
+import java.util.Properties
 
 fun BaseExtension.defaultConfig(
     compileSdkVersion: Int,
@@ -30,4 +34,20 @@ fun BaseExtension.commonConfig(
         targetSdkVersion = Version.Android.targetSdk,
         block = block
     )
+}
+
+fun SigningConfig.defaultConfig(project: Project, properties: Properties) {
+    val file = File(project.projectDir, "$name.jks")
+    require(file.exists()) { "Keystore file must be exists by full path ${file.absolutePath}!" }
+    val storePasswordKey = name + "_store_password"
+    val keyAliasKey = name + "_key_alias"
+    val keyPasswordKey = name + "_key_password"
+    try {
+        storeFile = file
+        storePassword = properties[storePasswordKey] as String
+        keyAlias = properties[keyAliasKey] as String
+        keyPassword = properties[keyPasswordKey] as String
+    } catch (ignored: Throwable) {
+        error("You should define $storePasswordKey, $keyAliasKey and $keyPasswordKey in ${file.name}")
+    }
 }

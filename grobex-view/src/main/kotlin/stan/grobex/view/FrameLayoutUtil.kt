@@ -1,6 +1,7 @@
 package stan.grobex.view
 
 import android.content.Context
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.TextWatcher
 import android.view.ViewGroup
@@ -43,16 +44,23 @@ fun frameLayout(
 fun KClass<FrameLayout>.layoutParams(
     width: Int,
     height: Int,
-    gravity: Gravity
+    gravity: Gravity,
+    margin: Margin
 ): FrameLayout.LayoutParams {
-    return FrameLayout.LayoutParams(width, height, gravity.asViewValue())
+    val result = FrameLayout.LayoutParams(width, height, gravity.asViewValue())
+    result.setMargin(margin)
+    return result
 }
 
-fun KClass<FrameLayout>.wrapped(gravity: Gravity = FrameLayoutDefault.gravity): FrameLayout.LayoutParams {
+fun KClass<FrameLayout>.wrapped(
+    gravity: Gravity = FrameLayoutDefault.gravity,
+    margin: Margin = noMargin
+): FrameLayout.LayoutParams {
     return layoutParams(
         width = ViewGroup.LayoutParams.WRAP_CONTENT,
         height = ViewGroup.LayoutParams.WRAP_CONTENT,
-        gravity = gravity
+        gravity = gravity,
+        margin = margin
     )
 }
 
@@ -61,6 +69,7 @@ fun FrameLayout.textView(
     width: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
     height: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
     layoutGravity: Gravity = FrameLayoutDefault.gravity,
+    margin: Margin = noMargin,
     // view
     background: Drawable,
     visibility: Visibility = ViewDefault.visibility,
@@ -68,11 +77,15 @@ fun FrameLayout.textView(
     onClick: () -> Unit = ViewDefault.onClick,
     isClickable: Boolean = ViewDefault.isClickable(onClick),
     // text view
-    text: String,
+    gravity: Gravity = TextViewDefault.gravity,
+    text: String = "",
     textSizeUnit: TypeDimension = TextViewDefault.textSizeDimension,
     textSize: Float = TextViewDefault.textSize,
+    textColor: Int = TextViewDefault.textColor,
+    typeface: Typeface? = TextViewDefault.typeface,
+    typefaceStyle: TypefaceStyle = TextViewDefault.typefaceStyle,
     isAllCaps: Boolean = TextViewDefault.isAllCaps,
-    textWatchers: Set<TextWatcher>,
+    textWatchers: Set<TextWatcher> = TextViewDefault.textWatchers,
     //
     needToAdd: Boolean = true,
     block: TextView.() -> Unit = {}
@@ -82,7 +95,8 @@ fun FrameLayout.textView(
         layoutParams = FrameLayout::class.layoutParams(
             width = width,
             height = height,
-            gravity = layoutGravity
+            gravity = layoutGravity,
+            margin = margin
         ),
         // view
         background = background,
@@ -91,9 +105,13 @@ fun FrameLayout.textView(
         onClick = onClick,
         isClickable = isClickable,
         // text view
+        gravity = gravity,
         text = text,
         textSizeUnit = textSizeUnit,
         textSize = textSize,
+        textColor = textColor,
+        typeface = typeface,
+        typefaceStyle = typefaceStyle,
         isAllCaps = isAllCaps,
         textWatchers = textWatchers,
         //

@@ -1,5 +1,8 @@
-object Common {
-    const val applicationId = "stan.grobex.sample"
+object Application {
+    object Id {
+        const val sample = "stan.grobex.sample"
+        const val view = "stan.grobex.view"
+    }
 }
 
 object BuildType {

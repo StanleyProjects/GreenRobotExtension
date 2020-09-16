@@ -37,8 +37,7 @@ fun editText(
             visibility = visibility,
             padding = padding,
             onClick = onClick,
-            isClickable = isClickable,
-            block = block
+            isClickable = isClickable
         )
         configure(
             text = text,
@@ -47,5 +46,6 @@ fun editText(
             isAllCaps = isAllCaps,
             textWatchers = textWatchers
         )
+        block()
     }
 }

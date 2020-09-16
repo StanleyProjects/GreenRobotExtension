@@ -93,16 +93,14 @@ internal object ViewDefault {
     }
 }
 
-fun <T : View> T.configure(
+fun View.configure(
     layoutParams: ViewGroup.LayoutParams,
     //
     background: Drawable,
     visibility: Visibility,
     padding: Padding,
     onClick: () -> Unit,
-    isClickable: Boolean,
-    //
-    block: T.() -> Unit
+    isClickable: Boolean
 ) {
     this.layoutParams = layoutParams
     this.background = background // todo
@@ -112,5 +110,4 @@ fun <T : View> T.configure(
     if (onClick !== UNSPECIFIED_ON_CLICK) {
         setOnClickListener { onClick() }
     }
-    block()
 }

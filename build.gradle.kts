@@ -66,7 +66,8 @@ task<DefaultTask>("verifyReadme") {
             "](https://bintray.com/$project/_latestVersion)"
         }
         val versions = setOf(
-            "grobex-view" to Version.Code.view
+            "grobex-sample" to Version.Name.sample,
+            "grobex-view" to Version.Name.view
         ).map { (label, value) ->
             MarkdownUtil.image(
                 text = label,
@@ -76,14 +77,7 @@ task<DefaultTask>("verifyReadme") {
                     color = "2962ff"
                 )
             )
-        } + MarkdownUtil.image(
-            text = "version",
-            url = badgeUrl(
-                label = "version",
-                message = Version.name,
-                color = "2962ff"
-            )
-        )
+        }
         val lines = text.split(SystemUtil.newLine)
         (versions + bintray).forEach {
             check(lines.contains(it)) { "File by path ${file.absolutePath} must contains \"$it\" line!" }
@@ -119,12 +113,7 @@ task<DefaultTask>("verifyAll") {
 }
 
 task<Delete>("clean") {
-    delete = setOf(rootProject.buildDir)
-}
-
-task<Delete>("cleanAll") {
-    dependsOn("clean")
-    delete = setOf(File(rootDir, "buildSrc/build"))
+    delete = setOf(rootProject.buildDir, File(rootDir, "buildSrc/build"))
 }
 
 allprojects {

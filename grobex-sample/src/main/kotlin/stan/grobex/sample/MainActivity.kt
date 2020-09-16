@@ -5,6 +5,7 @@ import android.os.Bundle
 import stan.grobex.view.Orientation
 import stan.grobex.view.editText
 import stan.grobex.view.linearLayout
+import stan.grobex.view.text.onTextChanged
 import stan.grobex.view.text.textWatcher
 import stan.grobex.view.textView
 
@@ -15,15 +16,22 @@ class MainActivity : Activity() {
             textView(text = "test")
             textView(text = "test2", isAllCaps = true)
             val t = textView()
-            val tw0 = textWatcher(onChanged = t::setText)
+            val tw0 = onTextChanged {
+                t.setText(it)
+            }
             val tw1 = textWatcher(afterChanged = {
                 println("after: $it")
-            }, onChanged = t::setText)
+            }, onChanged = { it, _, _, _ ->
+                t.text = it
+            })
             editText(
-                textWatchers = setOf(tw0)
+                textWatchers = setOf(tw0),
+                text = "123123"
             ) {
                 addTextChangedListener(tw1)
-                textWatcher(onChanged = t::setText)
+                onTextChanged {
+                    t.text = it
+                }
             }
         })
     }

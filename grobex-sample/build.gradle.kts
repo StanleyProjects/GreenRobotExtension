@@ -14,7 +14,6 @@ fun getOutputFileName(
 ): String {
     return applicationId +
         "-" + versionName +
-        "-" + Version.Code.sample +
         "." + fileExtension
 }
 
@@ -23,9 +22,9 @@ val androidProjectName = name
 
 android {
     commonConfig {
-        applicationId = Common.applicationId
-        versionCode = Version.Code.sample
-        versionName = Version.name
+        applicationId = Application.Id.sample
+        versionName = Version.Name.sample
+        versionCode = VersionUtil.codeByName(versionName)
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled = true
     }

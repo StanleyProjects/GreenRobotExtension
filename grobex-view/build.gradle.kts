@@ -16,14 +16,17 @@ fun getOutputFileName(
 }
 
 android {
-    commonConfig()
+    commonConfig {
+        versionName = Version.Name.view
+        versionCode = VersionUtil.codeByName(versionName)
+    }
 
     buildTypes {
         create(BuildType.snapshot)
     }
 
     val mainSourceSets = sourceSets["main"]!!
-    val applicationId = "stan.grobex.view"
+    val applicationId = Application.Id.view
     libraryVariants.all {
         check(this.applicationId == applicationId) {
             "Expected app id \"$applicationId\" but actual \"${this.applicationId}\"!"
@@ -31,11 +34,13 @@ android {
         outputs.forEach { output ->
             check(output is com.android.build.gradle.internal.api.LibraryVariantOutputImpl)
             val name = output.name
-            val postfix = when (name) {
-                BuildType.release -> ""
-                else -> "-$name"
-            }
-            val versionName = Version.name + "-" + Version.Code.view + postfix
+            val versionName = listOfNotNull(
+                Version.Name.view,
+                when (name) {
+                    BuildType.release -> null
+                    else -> name
+                }
+            ).joinToString(separator = "-")
             output.outputFileName = getOutputFileName(
                 applicationId = applicationId,
                 versionName = versionName,

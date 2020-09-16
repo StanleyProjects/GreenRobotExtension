@@ -34,10 +34,9 @@ fun frameLayout(
             visibility = visibility,
             padding = padding,
             onClick = onClick,
-            isClickable = isClickable,
-            //
-            block = block
+            isClickable = isClickable
         )
+        block()
     }
 }
 

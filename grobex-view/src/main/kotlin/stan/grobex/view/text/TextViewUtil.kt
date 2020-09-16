@@ -58,8 +58,7 @@ fun textView(
             visibility = visibility,
             padding = padding,
             onClick = onClick,
-            isClickable = isClickable,
-            block = block
+            isClickable = isClickable
         )
         configure(
             text = text,
@@ -68,28 +67,17 @@ fun textView(
             isAllCaps = isAllCaps,
             textWatchers = textWatchers
         )
+        block()
     }
 }
 
-fun TextView.textWatcher(
-    onChanged: (CharSequence?) -> Unit,
-    needToAdd: Boolean = true
+fun TextView.onTextChanged(
+    needToAdd: Boolean = true,
+    block: (CharSequence?) -> Unit
 ): TextWatcher {
-    val result = textWatcher(
-        onChanged = { value: CharSequence?, _, _, _ -> onChanged(value) }
-    )
+    val result = onTextChanged(block)
     if (needToAdd) {
         addTextChangedListener(result)
     }
     return result
-}
-
-fun TextView.textWatcher(
-    onChanged: () -> Unit,
-    needToAdd: Boolean = true
-): TextWatcher {
-    return textWatcher(
-        onChanged = { _ -> onChanged() },
-        needToAdd = needToAdd
-    )
 }

@@ -39,11 +39,10 @@ fun linearLayout(
             visibility = visibility,
             padding = padding,
             onClick = onClick,
-            isClickable = isClickable,
-            //
-            block = block
+            isClickable = isClickable
         )
         this.orientation = orientation.asViewValue()
+        block()
     }
 }
 
@@ -123,7 +122,7 @@ fun LinearLayout.editText(
     textWatchers: Set<TextWatcher> = TextViewDefault.textWatchers,
     //
     needToAdd: Boolean = true,
-    block: TextView.() -> Unit = {}
+    block: EditText.() -> Unit = {}
 ): EditText {
     val result = editText(
         context = context,

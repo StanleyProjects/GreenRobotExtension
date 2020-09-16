@@ -5,50 +5,6 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 
-enum class Visibility {
-    VISIBLE,
-    INVISIBLE,
-    GONE,
-}
-
-fun Visibility.asViewValue(): Int {
-    return when (this) {
-        Visibility.VISIBLE -> View.VISIBLE
-        Visibility.INVISIBLE -> View.INVISIBLE
-        Visibility.GONE -> View.GONE
-    }
-}
-
-interface Padding {
-    val left: Int
-    val top: Int
-    val right: Int
-    val bottom: Int
-}
-
-private data class PaddingImpl(
-    override val left: Int,
-    override val top: Int,
-    override val right: Int,
-    override val bottom: Int
-) : Padding
-
-fun padding(
-    left: Int = 0,
-    top: Int = 0,
-    right: Int = 0,
-    bottom: Int = 0
-): Padding {
-    return PaddingImpl(
-        left = left,
-        top = top,
-        right = right,
-        bottom = bottom
-    )
-}
-
-val noPadding = padding()
-
 fun View.getPadding(): Padding {
     return padding(
         left = paddingLeft,
@@ -82,14 +38,19 @@ fun View.updatePadding(
 }
 
 internal val UNSPECIFIED_ON_CLICK: () -> Unit = { error("not for use") }
+internal val UNSPECIFIED_ON_LONG_CLICK: () -> Boolean = { error("not for use") }
 
 internal object ViewDefault {
     val background = ColorDrawable(0)
     val visibility = Visibility.VISIBLE
     val padding = noPadding
     val onClick = UNSPECIFIED_ON_CLICK
-    fun isClickable(onClick: () -> Unit): Boolean {
-        return onClick !== UNSPECIFIED_ON_CLICK
+    val onLongClick: () -> Boolean = UNSPECIFIED_ON_LONG_CLICK
+    fun isClickable(
+        onClick: () -> Unit,
+        onLongClick: () -> Boolean
+    ): Boolean {
+        return onClick !== UNSPECIFIED_ON_CLICK && onLongClick !== UNSPECIFIED_ON_LONG_CLICK
     }
 }
 
@@ -100,6 +61,7 @@ fun View.configure(
     visibility: Visibility,
     padding: Padding,
     onClick: () -> Unit,
+    onLongClick: () -> Boolean,
     isClickable: Boolean
 ) {
     this.layoutParams = layoutParams
@@ -109,5 +71,8 @@ fun View.configure(
     this.isClickable = isClickable
     if (onClick !== UNSPECIFIED_ON_CLICK) {
         setOnClickListener { onClick() }
+    }
+    if (onLongClick !== UNSPECIFIED_ON_LONG_CLICK) {
+        setOnLongClickListener { onLongClick() }
     }
 }

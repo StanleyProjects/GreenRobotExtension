@@ -4,6 +4,10 @@ import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
 import android.view.ViewGroup
+import stan.grobex.common.content.px
+import stan.grobex.common.graphics.colorOf
+import stan.grobex.common.graphics.drawable.paintDrawable
+import stan.grobex.common.view.px
 import stan.grobex.view.Gravity
 import stan.grobex.view.Orientation
 import stan.grobex.view.editText
@@ -16,12 +20,12 @@ import stan.grobex.view.textView
 class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(linearLayout(context = this, orientation = Orientation.VERTICAL) {
+        val contentView = linearLayout(context = this, orientation = Orientation.VERTICAL) {
             textView(text = "test")
             textView(text = "test2", isAllCaps = true)
             val t = textView()
             val tw0 = onTextChanged {
-                t.setText(it)
+                t.text = it
             }
             val tw1 = textWatcher(afterChanged = {
                 println("after: $it")
@@ -39,12 +43,21 @@ class MainActivity : Activity() {
             }
             textView(
                 width = ViewGroup.LayoutParams.MATCH_PARENT,
-                margin = margin(top = 30),
-                gravity = Gravity.CENTER_HORIZONTAL,
+                height = px(dp = 54f),
+                margin = margin(top = px(dp = 8f), left = px(dp = 8f), right = px(dp = 8f)),
+                gravity = Gravity.CENTER,
                 text = "Тема:",
                 textSize = 15f,
-                textColor = Color.parseColor("#8e8e8e")
+                textColor = colorOf("#000000"),
+                background = paintDrawable("#2883f2", context.px(dp = 6f)),
+                onClick = {
+                    // todo
+                },
+                onLongClick = {
+                    true
+                }
             )
-        })
+        }
+        setContentView(contentView)
     }
 }

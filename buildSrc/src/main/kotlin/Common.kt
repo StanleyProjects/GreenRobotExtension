@@ -1,7 +1,8 @@
 object Application {
     object Id {
-        const val sample = "stan.grobex.sample"
+        const val common = "stan.grobex.common"
         const val view = "stan.grobex.view"
+        const val sample = "stan.grobex.sample"
     }
 }
 

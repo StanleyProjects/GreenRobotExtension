@@ -63,9 +63,10 @@ android {
 }
 
 dependencies {
-    implementationProject(
+    implementationProjects(
+        ":grobex-common",
         ":grobex-view"
     )
 
-    implementation(kotlin("stdlib"))
+    implementation(Dependency.kotlinStdlib)
 }

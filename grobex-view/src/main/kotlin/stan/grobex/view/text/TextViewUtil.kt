@@ -22,7 +22,7 @@ internal object TextViewDefault {
     const val textSize: Float = 12f
     const val isAllCaps: Boolean = false
     val textWatchers: Set<TextWatcher> = emptySet()
-    val textColor: Int = Color.parseColor("#000")
+    val textColor: Int = Color.parseColor("#000000")
     val typeface: Typeface? = null
     val typefaceStyle: TypefaceStyle = TypefaceStyle.NORMAL
     val gravity: Gravity = Gravity.TOP_LEFT
@@ -56,7 +56,8 @@ fun textView(
     visibility: Visibility = ViewDefault.visibility,
     padding: Padding = ViewDefault.padding,
     onClick: () -> Unit = ViewDefault.onClick,
-    isClickable: Boolean = ViewDefault.isClickable(onClick),
+    onLongClick: () -> Boolean = ViewDefault.onLongClick,
+    isClickable: Boolean = ViewDefault.isClickable(onClick, onLongClick),
     // text view
     gravity: Gravity,
     text: String,
@@ -77,6 +78,7 @@ fun textView(
             visibility = visibility,
             padding = padding,
             onClick = onClick,
+            onLongClick = onLongClick,
             isClickable = isClickable
         )
         configure(

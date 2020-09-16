@@ -1,5 +1,6 @@
 object Version {
     const val kotlin = "1.3.72"
+    const val kotlinDsl = "1.3.6"
     const val kotlinLint = "0.36.0"
 
     object Android {
@@ -11,7 +12,8 @@ object Version {
     }
 
     object Name {
-        const val sample = "0.0.3"
-        const val view = "0.0.6"
+        const val common = "0.0.1"
+        const val view = "0.0.7"
+        const val sample = "0.0.4"
     }
 }

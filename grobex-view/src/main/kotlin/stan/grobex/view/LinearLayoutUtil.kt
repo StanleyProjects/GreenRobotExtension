@@ -26,7 +26,8 @@ fun linearLayout(
     visibility: Visibility = ViewDefault.visibility,
     padding: Padding = ViewDefault.padding,
     onClick: () -> Unit = ViewDefault.onClick,
-    isClickable: Boolean = ViewDefault.isClickable(onClick),
+    onLongClick: () -> Boolean = ViewDefault.onLongClick,
+    isClickable: Boolean = ViewDefault.isClickable(onClick, onLongClick),
     // linear layout
     orientation: Orientation = LinearLayoutDefault.orientation,
     //
@@ -40,6 +41,7 @@ fun linearLayout(
             visibility = visibility,
             padding = padding,
             onClick = onClick,
+            onLongClick = onLongClick,
             isClickable = isClickable
         )
         this.orientation = orientation.asViewValue()
@@ -69,7 +71,8 @@ fun LinearLayout.textView(
     visibility: Visibility = ViewDefault.visibility,
     padding: Padding = ViewDefault.padding,
     onClick: () -> Unit = ViewDefault.onClick,
-    isClickable: Boolean = ViewDefault.isClickable(onClick),
+    onLongClick: () -> Boolean = ViewDefault.onLongClick,
+    isClickable: Boolean = ViewDefault.isClickable(onClick, onLongClick),
     // text view
     gravity: Gravity = TextViewDefault.gravity,
     text: String = "",
@@ -128,7 +131,8 @@ fun LinearLayout.editText(
     visibility: Visibility = ViewDefault.visibility,
     padding: Padding = ViewDefault.padding,
     onClick: () -> Unit = ViewDefault.onClick,
-    isClickable: Boolean = ViewDefault.isClickable(onClick),
+    onLongClick: () -> Boolean = ViewDefault.onLongClick,
+    isClickable: Boolean = ViewDefault.isClickable(onClick, onLongClick),
     // text view
     gravity: Gravity = TextViewDefault.gravity,
     text: String = "",

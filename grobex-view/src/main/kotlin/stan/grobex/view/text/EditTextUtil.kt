@@ -23,7 +23,8 @@ fun editText(
     visibility: Visibility = ViewDefault.visibility,
     padding: Padding = ViewDefault.padding,
     onClick: () -> Unit = ViewDefault.onClick,
-    isClickable: Boolean = ViewDefault.isClickable(onClick),
+    onLongClick: () -> Boolean = ViewDefault.onLongClick,
+    isClickable: Boolean = ViewDefault.isClickable(onClick, onLongClick),
     // text view
     gravity: Gravity,
     text: String,
@@ -44,6 +45,7 @@ fun editText(
             visibility = visibility,
             padding = padding,
             onClick = onClick,
+            onLongClick = onLongClick,
             isClickable = isClickable
         )
         configure(

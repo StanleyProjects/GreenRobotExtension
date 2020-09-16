@@ -23,7 +23,8 @@ fun frameLayout(
     visibility: Visibility = ViewDefault.visibility,
     padding: Padding = ViewDefault.padding,
     onClick: () -> Unit = ViewDefault.onClick,
-    isClickable: Boolean = ViewDefault.isClickable(onClick),
+    onLongClick: () -> Boolean = ViewDefault.onLongClick,
+    isClickable: Boolean = ViewDefault.isClickable(onClick, onLongClick),
     //
     block: FrameLayout.() -> Unit = {}
 ): FrameLayout {
@@ -35,6 +36,7 @@ fun frameLayout(
             visibility = visibility,
             padding = padding,
             onClick = onClick,
+            onLongClick = onLongClick,
             isClickable = isClickable
         )
         block()
@@ -75,7 +77,8 @@ fun FrameLayout.textView(
     visibility: Visibility = ViewDefault.visibility,
     padding: Padding = ViewDefault.padding,
     onClick: () -> Unit = ViewDefault.onClick,
-    isClickable: Boolean = ViewDefault.isClickable(onClick),
+    onLongClick: () -> Boolean = ViewDefault.onLongClick,
+    isClickable: Boolean = ViewDefault.isClickable(onClick, onLongClick),
     // text view
     gravity: Gravity = TextViewDefault.gravity,
     text: String = "",

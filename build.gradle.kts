@@ -57,35 +57,21 @@ task<DefaultTask>("verifyReadme") {
         listOf(projectCommon).forEach {
             check(text.contains(it)) { "File by path ${file.absolutePath} must contains \"$it\"!" }
         }
-        val bintray = setOf(
-            "view"
-        ).map {
-            val project = "stanleyprojects/GreenRobotExtension/stan.grobex.$it"
-            "[" +
-                "![Download](https://api.bintray.com/packages/$project/images/download.svg)" +
-            "](https://bintray.com/$project/_latestVersion)"
-        }
         val versions = setOf(
-            "grobex-view" to Version.Code.view
+            "grobex-common" to Version.Name.common,
+            "grobex-view" to Version.Name.view
         ).map { (label, value) ->
             MarkdownUtil.image(
                 text = label,
                 url = badgeUrl(
                     label = label,
-                    message = value.toString(),
+                    message = value,
                     color = "2962ff"
                 )
             )
-        } + MarkdownUtil.image(
-            text = "version",
-            url = badgeUrl(
-                label = "version",
-                message = Version.name,
-                color = "2962ff"
-            )
-        )
+        }
         val lines = text.split(SystemUtil.newLine)
-        (versions + bintray).forEach {
+        versions.forEach {
             check(lines.contains(it)) { "File by path ${file.absolutePath} must contains \"$it\" line!" }
         }
     }
@@ -95,7 +81,10 @@ task<DefaultTask>("verifyService") {
     doLast {
         val file = File(rootDir, "buildSrc/build.gradle.kts")
         val text = file.requireFilledText()
-        listOf(Dependency.androidToolsBuildGradle.notation()).forEach {
+        listOf(
+            Dependency.androidToolsBuildGradle.notation(),
+            "id(\"org.gradle.kotlin.kotlin-dsl\") version \"${Version.kotlinDsl}\""
+        ).forEach {
             check(text.contains(it)) { "File by path ${file.absolutePath} must contains \"$it\"!" }
         }
     }
@@ -119,12 +108,7 @@ task<DefaultTask>("verifyAll") {
 }
 
 task<Delete>("clean") {
-    delete = setOf(rootProject.buildDir)
-}
-
-task<Delete>("cleanAll") {
-    dependsOn("clean")
-    delete = setOf(File(rootDir, "buildSrc/build"))
+    delete = setOf(rootProject.buildDir, File(rootDir, "buildSrc/build"))
 }
 
 allprojects {

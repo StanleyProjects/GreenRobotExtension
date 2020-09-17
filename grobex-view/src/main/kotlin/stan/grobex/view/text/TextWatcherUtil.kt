@@ -30,42 +30,29 @@ fun textWatcher(
     }
 }
 
-fun textWatcher(
-    afterChanged: (Editable?) -> Unit = TextWatcherDefault.afterTextChanged,
-    beforeChanged: (CharSequence?) -> Unit = TextWatcherDefault.empty,
-    onChanged: (CharSequence?) -> Unit
+fun afterTextChanged(
+    block: (Editable?) -> Unit
 ): TextWatcher {
     return textWatcher(
-        afterChanged = afterChanged,
-        beforeChanged = { value: CharSequence?, _, _, _ -> beforeChanged(value) },
-        onChanged = { value: CharSequence?, _, _, _ -> onChanged(value) }
-    )
-}
-
-fun textWatcher(
-    afterChanged: (Editable?) -> Unit = TextWatcherDefault.afterTextChanged,
-    beforeChanged: (CharSequence?, start: Int, count: Int, after: Int) -> Unit
-): TextWatcher {
-    return textWatcher(
-        afterChanged = afterChanged,
-        beforeChanged = beforeChanged,
+        afterChanged = block,
+        beforeChanged = TextWatcherDefault.beforeTextChanged,
         onChanged = TextWatcherDefault.onTextChanged
     )
 }
 
-fun textWatcher(
-    afterChanged: (Editable?) -> Unit
+fun beforeTextChanged(
+    block: (CharSequence?) -> Unit
 ): TextWatcher {
     return textWatcher(
-        afterChanged = afterChanged,
-        beforeChanged = TextWatcherDefault.beforeTextChanged
+        beforeChanged = { value: CharSequence?, _, _, _ -> block(value) },
+        onChanged = TextWatcherDefault.onTextChanged
     )
 }
 
-fun textWatcher(
-    onChanged: () -> Unit
+fun onTextChanged(
+    block: (CharSequence?) -> Unit
 ): TextWatcher {
     return textWatcher(
-        onChanged = { _ -> onChanged() }
+        onChanged = { value: CharSequence?, _, _, _ -> block(value) }
     )
 }

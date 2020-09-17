@@ -19,7 +19,7 @@ fun getOutputFileName(
 
 android {
     commonConfig {
-        versionName = Version.Name.view
+        versionName = Version.Name.common
         versionCode = VersionUtil.codeByName(versionName)
     }
 
@@ -43,7 +43,7 @@ android {
     }
 
     val mainSourceSets = sourceSets["main"]!!
-    val applicationId = Application.Id.view
+    val applicationId = Application.Id.common
     libraryVariants.all {
         check(this.applicationId == applicationId) {
             "Expected app id \"$applicationId\" but actual \"${this.applicationId}\"!"
@@ -52,7 +52,7 @@ android {
             check(output is com.android.build.gradle.internal.api.LibraryVariantOutputImpl)
             val name = output.name
             val versionName = listOfNotNull(
-                Version.Name.view,
+                Version.Name.common,
                 when (name) {
                     BuildType.release -> null
                     else -> name

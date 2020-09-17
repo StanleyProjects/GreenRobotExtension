@@ -1,26 +1,26 @@
-package stan.grobex.view
+package stan.grobex.view.entity
 
-interface Padding {
+interface Margin {
     val left: Int
     val top: Int
     val right: Int
     val bottom: Int
 }
 
-private data class PaddingImpl(
+private data class MarginImpl(
     override val left: Int,
     override val top: Int,
     override val right: Int,
     override val bottom: Int
-) : Padding
+) : Margin
 
-fun padding(
+fun margin(
     left: Int = 0,
     top: Int = 0,
     right: Int = 0,
     bottom: Int = 0
-): Padding {
-    return PaddingImpl(
+): Margin {
+    return MarginImpl(
         left = left,
         top = top,
         right = right,
@@ -28,4 +28,15 @@ fun padding(
     )
 }
 
-val noPadding = padding()
+fun marginAll(
+    value: Int
+): Margin {
+    return margin(
+        left = value,
+        top = value,
+        right = value,
+        bottom = value
+    )
+}
+
+val noMargin = margin()

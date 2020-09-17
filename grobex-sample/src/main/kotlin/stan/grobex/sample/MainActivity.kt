@@ -1,26 +1,30 @@
 package stan.grobex.sample
 
 import android.app.Activity
-import android.graphics.Color
 import android.os.Bundle
 import android.view.ViewGroup
 import stan.grobex.common.content.px
 import stan.grobex.common.graphics.colorOf
 import stan.grobex.common.graphics.drawable.paintDrawable
 import stan.grobex.common.view.px
-import stan.grobex.view.Gravity
-import stan.grobex.view.Orientation
-import stan.grobex.view.editText
-import stan.grobex.view.linearLayout
-import stan.grobex.view.margin
+import stan.grobex.view.entity.Gravity
+import stan.grobex.view.entity.Orientation
+import stan.grobex.view.entity.marginAll
+import stan.grobex.view.group.editText
+import stan.grobex.view.group.linearLayout
+import stan.grobex.view.group.textView
+import stan.grobex.view.group.view
 import stan.grobex.view.text.onTextChanged
 import stan.grobex.view.text.textWatcher
-import stan.grobex.view.textView
 
 class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val contentView = linearLayout(context = this, orientation = Orientation.VERTICAL) {
+        val contentView = linearLayout(
+            context = this,
+            id = 1,
+            orientation = Orientation.VERTICAL
+        ) {
             textView(text = "test")
             textView(text = "test2", isAllCaps = true)
             val t = textView()
@@ -41,10 +45,16 @@ class MainActivity : Activity() {
                     t.text = it
                 }
             }
+            view(
+                width = 0,
+                height = 0,
+                weight = 1f
+            )
             textView(
                 width = ViewGroup.LayoutParams.MATCH_PARENT,
                 height = px(dp = 54f),
-                margin = margin(top = px(dp = 8f), left = px(dp = 8f), right = px(dp = 8f)),
+//                margin = margin(top = px(dp = 8f), left = px(dp = 8f), right = px(dp = 8f), bottom = px(dp = 8f)),
+                margin = marginAll(px(dp = 8f)),
                 gravity = Gravity.CENTER,
                 text = "Тема:",
                 textSize = 15f,

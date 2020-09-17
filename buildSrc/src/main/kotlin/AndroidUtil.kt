@@ -1,9 +1,9 @@
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.dsl.DefaultConfig
 import com.android.build.gradle.internal.dsl.SigningConfig
-import org.gradle.api.Project
 import java.io.File
 import java.util.Properties
+import org.gradle.api.Project
 
 fun BaseExtension.defaultConfig(
     compileSdkVersion: Int,

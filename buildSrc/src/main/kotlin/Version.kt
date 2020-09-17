@@ -12,8 +12,8 @@ object Version {
     }
 
     object Name {
-        const val common = "0.0.1"
-        const val view = "0.0.7"
-        const val sample = "0.0.4"
+        const val common = "0.0.2"
+        const val view = "0.0.9"
+        const val sample = "0.0.5"
     }
 }

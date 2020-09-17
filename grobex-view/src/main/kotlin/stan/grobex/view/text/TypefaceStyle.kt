@@ -1,4 +1,4 @@
-package stan.grobex.view
+package stan.grobex.view.text
 
 import android.graphics.Typeface
 

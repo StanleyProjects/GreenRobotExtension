@@ -1,7 +1,9 @@
-package stan.grobex.view
+package stan.grobex.view.group
 
 import android.view.ViewGroup
 import kotlin.reflect.KClass
+import stan.grobex.view.entity.Margin
+import stan.grobex.view.entity.margin
 
 fun KClass<ViewGroup>.layoutParams(width: Int, height: Int): ViewGroup.LayoutParams {
     return ViewGroup.LayoutParams(width, height)
@@ -13,36 +15,6 @@ fun KClass<ViewGroup>.layoutParams(size: Int): ViewGroup.LayoutParams {
 
 val KClass<ViewGroup>.wrapped get() = layoutParams(size = ViewGroup.LayoutParams.WRAP_CONTENT)
 val KClass<ViewGroup>.matched get() = layoutParams(size = ViewGroup.LayoutParams.MATCH_PARENT)
-
-interface Margin {
-    val left: Int
-    val top: Int
-    val right: Int
-    val bottom: Int
-}
-
-private data class MarginImpl(
-    override val left: Int,
-    override val top: Int,
-    override val right: Int,
-    override val bottom: Int
-) : Margin
-
-fun margin(
-    left: Int = 0,
-    top: Int = 0,
-    right: Int = 0,
-    bottom: Int = 0
-): Margin {
-    return MarginImpl(
-        left = left,
-        top = top,
-        right = right,
-        bottom = bottom
-    )
-}
-
-val noMargin = margin()
 
 fun ViewGroup.MarginLayoutParams.setMargin(margin: Margin) {
     setMargins(

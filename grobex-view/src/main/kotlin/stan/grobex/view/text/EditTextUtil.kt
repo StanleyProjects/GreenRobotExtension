@@ -6,25 +6,26 @@ import android.graphics.drawable.Drawable
 import android.text.TextWatcher
 import android.view.ViewGroup
 import android.widget.EditText
-import stan.grobex.view.Gravity
-import stan.grobex.view.Padding
-import stan.grobex.view.TypeDimension
-import stan.grobex.view.TypefaceStyle
 import stan.grobex.view.ViewDefault
-import stan.grobex.view.Visibility
 import stan.grobex.view.configure
-import stan.grobex.view.wrapped
+import stan.grobex.view.entity.Gravity
+import stan.grobex.view.entity.Padding
+import stan.grobex.view.entity.TypeDimension
+import stan.grobex.view.entity.Visibility
+import stan.grobex.view.group.wrapped
 
 fun editText(
     context: Context,
     layoutParams: ViewGroup.LayoutParams = ViewGroup::class.wrapped,
     // view
-    background: Drawable,
+    id: Int, // todo default
+    background: Drawable = ViewDefault.background,
     visibility: Visibility = ViewDefault.visibility,
     padding: Padding = ViewDefault.padding,
     onClick: () -> Unit = ViewDefault.onClick,
-    onLongClick: () -> Boolean = ViewDefault.onLongClick,
+    onLongClick: () -> Boolean, // todo default
     isClickable: Boolean = ViewDefault.isClickable(onClick, onLongClick),
+    keepScreenOn: Boolean, // todo default
     // text view
     gravity: Gravity,
     text: String,
@@ -41,12 +42,14 @@ fun editText(
     return EditText(context).apply {
         configure(
             layoutParams = layoutParams,
+            id = id,
             background = background,
             visibility = visibility,
             padding = padding,
             onClick = onClick,
             onLongClick = onLongClick,
-            isClickable = isClickable
+            isClickable = isClickable,
+            keepScreenOn = keepScreenOn
         )
         configure(
             text = text,

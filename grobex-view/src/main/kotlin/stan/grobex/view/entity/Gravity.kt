@@ -1,4 +1,4 @@
-package stan.grobex.view
+package stan.grobex.view.entity
 
 import android.view.Gravity as AndroidGravity
 

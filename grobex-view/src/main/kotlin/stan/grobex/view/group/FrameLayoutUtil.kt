@@ -1,4 +1,4 @@
-package stan.grobex.view
+package stan.grobex.view.group
 
 import android.content.Context
 import android.graphics.Typeface
@@ -8,7 +8,17 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import kotlin.reflect.KClass
+import stan.grobex.view.ViewDefault
+import stan.grobex.view.configure
+import stan.grobex.view.entity.Gravity
+import stan.grobex.view.entity.Margin
+import stan.grobex.view.entity.Padding
+import stan.grobex.view.entity.TypeDimension
+import stan.grobex.view.entity.Visibility
+import stan.grobex.view.entity.asViewValue
+import stan.grobex.view.entity.noMargin
 import stan.grobex.view.text.TextViewDefault
+import stan.grobex.view.text.TypefaceStyle
 import stan.grobex.view.text.textView
 
 internal object FrameLayoutDefault {
@@ -19,12 +29,14 @@ fun frameLayout(
     context: Context,
     layoutParams: ViewGroup.LayoutParams = ViewGroup::class.matched,
     // view
-    background: Drawable,
+    id: Int = ViewDefault.id,
+    background: Drawable = ViewDefault.background,
     visibility: Visibility = ViewDefault.visibility,
     padding: Padding = ViewDefault.padding,
     onClick: () -> Unit = ViewDefault.onClick,
     onLongClick: () -> Boolean = ViewDefault.onLongClick,
     isClickable: Boolean = ViewDefault.isClickable(onClick, onLongClick),
+    keepScreenOn: Boolean = ViewDefault.keepScreenOn,
     //
     block: FrameLayout.() -> Unit = {}
 ): FrameLayout {
@@ -32,12 +44,14 @@ fun frameLayout(
         configure(
             layoutParams = layoutParams,
             // view
+            id = id,
             background = background,
             visibility = visibility,
             padding = padding,
             onClick = onClick,
             onLongClick = onLongClick,
-            isClickable = isClickable
+            isClickable = isClickable,
+            keepScreenOn = keepScreenOn
         )
         block()
     }
@@ -73,12 +87,14 @@ fun FrameLayout.textView(
     layoutGravity: Gravity = FrameLayoutDefault.gravity,
     margin: Margin = noMargin,
     // view
-    background: Drawable,
+    id: Int = ViewDefault.id,
+    background: Drawable = ViewDefault.background,
     visibility: Visibility = ViewDefault.visibility,
     padding: Padding = ViewDefault.padding,
     onClick: () -> Unit = ViewDefault.onClick,
     onLongClick: () -> Boolean = ViewDefault.onLongClick,
     isClickable: Boolean = ViewDefault.isClickable(onClick, onLongClick),
+    keepScreenOn: Boolean = ViewDefault.keepScreenOn,
     // text view
     gravity: Gravity = TextViewDefault.gravity,
     text: String = "",
@@ -102,11 +118,14 @@ fun FrameLayout.textView(
             margin = margin
         ),
         // view
+        id = id,
         background = background,
         visibility = visibility,
         padding = padding,
         onClick = onClick,
+        onLongClick = onLongClick,
         isClickable = isClickable,
+        keepScreenOn = keepScreenOn,
         // text view
         gravity = gravity,
         text = text,
